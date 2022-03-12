@@ -17,6 +17,7 @@ productRouter.post("/upload-product", async (req, res) => {
     price: savedProduct.price,
     description: savedProduct.description,
     image: savedProduct.image,
+    quantity: savedProduct.quantity,
   };
 
   res.send(cleanedSavedProduct);

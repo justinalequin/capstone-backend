@@ -1,5 +1,6 @@
 const express = require("express");
 const { UserModel } = require("../controllers/UserController");
+const jwt = require("jsonwebtoken");
 
 const userRouter = express.Router();
 
@@ -35,6 +36,14 @@ userRouter.post("/sign-in", async (req, res) => {
     password: userCredentials.password,
   });
 
+  const token = jwt.sign(
+    {
+      userId: foundUser.id,
+      iat: Date.now(),
+    },
+    "secretPassword"
+  );
+
   const cleanFoundUser = {
     id: foundUser.id,
     firstName: foundUser.firstName,
@@ -42,7 +51,7 @@ userRouter.post("/sign-in", async (req, res) => {
     userName: foundUser.userName,
   };
 
-  res.send(cleanFoundUser);
+  res.send({ cleanFoundUser, token });
 });
 
 module.exports = userRouter;

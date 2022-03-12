@@ -17,7 +17,6 @@ app.use(cors());
 
 app.use(bodyParser.json());
 
-// Attach routers to our app
 app.use(userRouter);
 app.use(productRouter);
 
