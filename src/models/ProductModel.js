@@ -9,6 +9,7 @@ const productSchema = new mongoose.Schema({
   image: { type: String, required: true },
   price: { type: Number, required: true },
   quantity: { type: Number, require: false },
+  daysIsRented: [{ type: String, require: false }],
 });
 
 const ProductModel = mongoose.model("Product", productSchema);

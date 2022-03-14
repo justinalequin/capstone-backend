@@ -1,57 +1,14 @@
 const express = require("express");
-const { UserModel } = require("../controllers/UserController");
+const { UserModel } = require("../models/UserModel");
 const jwt = require("jsonwebtoken");
+const UserServices = require("../services/UserServices");
 
 const userRouter = express.Router();
 
-userRouter.post("/create-user", (req, res) => {
-  const user = req.body.user;
+userRouter.post("/create-user", UserServices.createUser);
 
-  const newUser = new UserModel({
-    firstName: user.firstName,
-    lastName: user.lastName,
-    userName: user.userName,
-    password: user.password,
-  });
+userRouter.post("/sign-in", UserServices.signIn);
 
-  newUser.save().then((savedUser) => {
-    console.log("savedUser: ", savedUser);
-
-    const cleanSavedUser = {
-      id: savedUser.id,
-      firstName: savedUser.firstName,
-      lastName: savedUser.lastName,
-      userName: savedUser.userName,
-    };
-
-    res.send(cleanSavedUser);
-  });
-});
-
-userRouter.post("/sign-in", async (req, res) => {
-  const userCredentials = req.body.userCredentials;
-
-  const foundUser = await UserModel.findOne({
-    userName: userCredentials.userName,
-    password: userCredentials.password,
-  });
-
-  const token = jwt.sign(
-    {
-      userId: foundUser.id,
-      iat: Date.now(),
-    },
-    "secretPassword"
-  );
-
-  const cleanFoundUser = {
-    id: foundUser.id,
-    firstName: foundUser.firstName,
-    lastName: foundUser.lastName,
-    userName: foundUser.userName,
-  };
-
-  res.send({ cleanFoundUser, token });
-});
+userRouter.get("/sign-out", UserServices.signOut);
 
 module.exports = userRouter;
