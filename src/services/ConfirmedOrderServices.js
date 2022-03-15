@@ -1,4 +1,5 @@
 const { ConfirmedOrderModel } = require("../models/ConfirmedOrderModel");
+const PermissionServices = require("./PermissionServices");
 
 const postOrder = async (req, res, next) => {
   try {
@@ -18,7 +19,24 @@ const postOrder = async (req, res, next) => {
 
 const getOrders = async (req, res, next) => {
   try {
-    const foundOrders = await ConfirmedOrderModel.find({});
+    PermissionServices.checkUserLoginStatus(req);
+    // check that the user is logged in
+    const userId = req.user.id;
+    console.log("req.user: ", req.user);
+    //Get the user ID
+
+    //Find orders based on User ID
+
+    const foundOrders = await ConfirmedOrderModel.find({
+      userId: userId,
+    });
+
+    console.log("foundOrder: ", foundOrders);
+
+    if (!foundOrders) {
+      throw new Error("Users orders not found.");
+    }
+
     res.send(foundOrders);
   } catch (error) {
     next(error);
