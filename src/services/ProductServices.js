@@ -21,6 +21,7 @@ const uploadProduct = async (req, res, next) => {
     };
     res.send(cleanSavedProduct);
   } catch (error) {
+    console.log(error);
     return next(error);
   }
 };

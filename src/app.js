@@ -45,9 +45,9 @@ app.use(async (req, res, next) => {
   next();
 });
 
-app.use(userRouter);
-app.use(productRouter);
-app.use(confirmedOrderRouter);
+app.use("/api", userRouter);
+app.use("/api", productRouter);
+app.use("/api", confirmedOrderRouter);
 
 app.listen(5100, () => {
   console.log("EV RENTALS BACKEND IS LIVE");
