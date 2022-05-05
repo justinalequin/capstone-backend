@@ -14,7 +14,7 @@ const confirmedOrderRouter = require("./routes/confirmedOrderRouter");
 mongoose
   .connect(process.env.DB_CONNECTION_STRING)
   .then(() => console.log("We in it!"))
-  .catch(() => console.log("It didn't happen dude"));
+  .catch((error) => console.log("It didn't happen dude", error));
 
 const app = express();
 
